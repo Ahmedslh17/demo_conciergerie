@@ -45,7 +45,7 @@ class PagesController < ApplicationController
         redirect_to admin_path
       else
         flash.now[:alert] = "Identifiants incorrects"
-        render :login, status: :unprocessable_entity
+        render :login
       end
     end
   end
