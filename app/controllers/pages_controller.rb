@@ -38,14 +38,18 @@ class PagesController < ApplicationController
   end
 
   # Actions de connexion / déconnexion par formulaire
-  def login
+ def login
     if request.post?
-      if params[:username] == ENV["ADMIN_USERNAME"] && params[:password] == ENV["ADMIN_PASSWORD"]
+      # Utilise "admin" par défaut si la variable d'environnement n'est pas trouvée
+      expected_username = ENV["ADMIN_USERNAME"].presence || "admin"
+      expected_password = ENV["ADMIN_PASSWORD"].presence || "admin"
+
+      if params[:username] == expected_username && params[:password] == expected_password
         session[:admin_logged_in] = true
         redirect_to admin_path
       else
         flash.now[:alert] = "Identifiants incorrects"
-        render :login
+        render :login, status: :unprocessable_entity
       end
     end
   end
