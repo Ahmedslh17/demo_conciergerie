@@ -5,5 +5,7 @@ Rails.application.routes.draw do
   get "admin", to: "pages#admin", as: :admin
   delete "leads/:id", to: "pages#destroy_lead", as: :delete_lead
   
+  get "login", to: "pages#login"
+  post "login", to: "pages#login"
   get "logout", to: "pages#logout", as: :logout
 end

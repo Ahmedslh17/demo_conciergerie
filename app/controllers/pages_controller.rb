@@ -3,9 +3,7 @@ require "csv"
 class PagesController < ApplicationController
   protect_from_forgery with: :null_session, only: [:create_lead, :destroy_lead]
 
-  http_basic_authenticate_with name: ENV["ADMIN_USERNAME"],
-                               password: ENV["ADMIN_PASSWORD"],
-                               only: [:admin, :destroy_lead]
+  before_action :authenticate_admin!, only: [:admin, :destroy_lead]
 
   def home
     @lead = Lead.new
@@ -39,11 +37,31 @@ class PagesController < ApplicationController
     redirect_to "/admin"
   end
 
+  # Actions de connexion / déconnexion par formulaire
+  def login
+    if request.post?
+      if params[:username] == ENV["ADMIN_USERNAME"] && params[:password] == ENV["ADMIN_PASSWORD"]
+        session[:admin_logged_in] = true
+        redirect_to admin_path, notice: "Connecté avec succès !"
+      else
+        flash.now[:alert] = "Identifiants incorrects"
+        render :login, status: :unprocessable_entity
+      end
+    end
+  end
+
   def logout
-    request_http_basic_authentication
+    session[:admin_logged_in] = nil
+    redirect_to root_path, notice: "Déconnecté !"
   end
 
   private
+
+  def authenticate_admin!
+    unless session[:admin_logged_in]
+      redirect_to login_path, alert: "Veuillez vous connecter."
+    end
+  end
 
   def generate_csv(leads)
     CSV.generate(headers: true) do |csv|
