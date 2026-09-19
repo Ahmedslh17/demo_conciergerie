@@ -1,0 +1,187 @@
+<div class="min-h-screen bg-slate-50 text-slate-800 font-sans">
+  <!-- En-tête / Navigation -->
+  <header class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-sm">
+        K
+      </div>
+      <div>
+        <span class="font-bold text-lg text-slate-900 block leading-tight">Kreatix</span>
+        <span class="text-xs text-slate-500 font-medium">Conciergerie & Gestion</span>
+      </div>
+    </div>
+    <a href="/admin" class="text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 px-4 py-2.5 rounded-xl border border-slate-200 transition shadow-sm">
+      Espace Admin →
+    </a>
+  </header>
+
+  <!-- Section Principale -->
+  <main class="max-w-5xl mx-auto px-6 py-10">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="inline-block px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-semibold rounded-full mb-3">
+        Simulateur de Revenus
+      </span>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Combien peut vous rapporter votre logement ?
+      </h1>
+      <p class="text-slate-600 text-sm sm:text-base mt-3">
+        Estimez vos revenus locatifs mensuels en quelques clics grâce à notre conciergerie.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-12 gap-8 items-start">
+      <!-- Formulaire / Simulateur -->
+      <div class="md:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xl shadow-slate-200/50 space-y-6">
+        
+        <!-- Étape 1 : Choix du bien -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+            1. Choisissez le type de bien
+          </label>
+          <div class="grid grid-cols-3 gap-3">
+            <button type="button" onclick="selectProperty(80, 'Studio / T1', this)" class="prop-card border-2 border-indigo-600 bg-indigo-50/50 p-4 rounded-2xl text-center transition cursor-pointer">
+              <span class="block text-2xl mb-1">🏙️</span>
+              <span class="block text-xs font-bold text-slate-900">Studio / T1</span>
+              <span class="block text-[10px] text-slate-500 mt-0.5">~80 € / nuit</span>
+            </button>
+
+            <button type="button" onclick="selectProperty(120, 'Appartement T2', this)" class="prop-card border-2 border-slate-200 bg-slate-50 hover:border-slate-300 p-4 rounded-2xl text-center transition cursor-pointer">
+              <span class="block text-2xl mb-1">🏡</span>
+              <span class="block text-xs font-bold text-slate-900">T2 / T3</span>
+              <span class="block text-[10px] text-slate-500 mt-0.5">~120 € / nuit</span>
+            </button>
+
+            <button type="button" onclick="selectProperty(200, 'Maison / Villa', this)" class="prop-card border-2 border-slate-200 bg-slate-50 hover:border-slate-300 p-4 rounded-2xl text-center transition cursor-pointer">
+              <span class="block text-2xl mb-1">🏰</span>
+              <span class="block text-xs font-bold text-slate-900">Maison / Villa</span>
+              <span class="block text-[10px] text-slate-500 mt-0.5">~200 € / nuit</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Étape 2 : Ville -->
+        <div>
+          <label for="city_input" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+            2. Localisation
+          </label>
+          <input type="text" id="city_input" placeholder="Ex: Paris, Lyon, Marseille..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition" />
+        </div>
+
+        <!-- Étape 3 : Nombre de nuits -->
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label for="nights" class="text-xs font-bold uppercase tracking-wider text-slate-400">
+              3. Nuits louées par mois
+            </label>
+            <span class="text-sm font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">
+              <span id="nights_val">18</span> nuits
+            </span>
+          </div>
+          <input type="range" id="nights" min="5" max="30" value="18" oninput="calculateIncome()" class="w-full accent-indigo-600 cursor-pointer" />
+        </div>
+
+        <!-- Formulaire de Contact -->
+       <!-- Formulaire de Contact -->
+        <form action="/leads" method="post" class="space-y-4 pt-4 border-t border-slate-100">
+          <input type="hidden" name="lead[choices]" id="lead_choices" value="">
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Votre Nom</label>
+            <input type="text" name="lead[name]" required placeholder="Jean Dupont" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Email</label>
+              <input type="email" name="lead[email]" required placeholder="jean@gmail.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Téléphone</label>
+              <input type="tel" name="lead[phone]" required placeholder="06 12 34 56 78" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition" />
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-indigo-200 transition text-sm">
+            Obtenir mon étude personnalisée →
+          </button>
+        </form>
+      </div>
+
+      <!-- Bloc d'estimation (Résultat) -->
+      <div class="md:col-span-5 bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-8 shadow-xl space-y-6">
+        <div>
+          <span class="text-xs uppercase tracking-wider text-indigo-300 font-semibold block mb-1">Estimation nette locataire</span>
+          <p class="text-xs text-slate-300">Revenus estimatifs après commission conciergerie (20%).</p>
+        </div>
+
+        <div class="py-6 border-y border-slate-800">
+          <span class="text-xs text-slate-400 block mb-1">Revenu mensuel estimé</span>
+          <div id="result" class="text-4xl sm:text-5xl font-black text-indigo-400 tracking-tight">
+            1 152 €
+          </div>
+          <span class="text-[11px] text-slate-400 mt-2 block">/ mois net dans votre poche</span>
+        </div>
+
+        <ul class="space-y-3 text-xs text-slate-300">
+          <li class="flex items-center gap-2">
+            <span class="text-emerald-400 font-bold">✓</span> Création & gestion complète des annonces
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="text-emerald-400 font-bold">✓</span> Accueil des voyageurs & ménage pro
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="text-emerald-400 font-bold">✓</span> Optimisation dynamique des prix
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  let selectedPrice = 80;
+  let selectedName = 'Studio / T1';
+
+  function selectProperty(price, name, element) {
+    selectedPrice = price;
+    selectedName = name;
+
+    document.querySelectorAll('.prop-card').forEach(card => {
+      card.classList.remove('border-indigo-600', 'bg-indigo-50/50');
+      card.classList.add('border-slate-200', 'bg-slate-50');
+    });
+
+    element.classList.remove('border-slate-200', 'bg-slate-50');
+    element.classList.add('border-indigo-600', 'bg-indigo-50/50');
+
+    calculateIncome();
+  }
+
+  function calculateIncome() {
+    const nights = parseInt(document.getElementById('nights').value);
+    const cityInput = document.getElementById('city_input');
+    const city = cityInput ? cityInput.value.trim() : '';
+    
+    document.getElementById('nights_val').innerText = nights;
+
+    const gross = selectedPrice * nights;
+    const netOwner = Math.round(gross * 0.8);
+    const formattedResult = netOwner.toLocaleString('fr-FR') + ' €';
+
+    document.getElementById('result').innerText = formattedResult;
+
+    // Construction du texte envoyé au serveur
+    const cityInfo = city !== '' ? ` à ${city}` : '';
+    document.getElementById('lead_choices').value = `${selectedName}${cityInfo} — ${nights} nuits/mois (${formattedResult})`;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    calculateIncome();
+    
+    // Déclencher le calcul quand l'utilisateur tape une ville
+    const cityInput = document.getElementById('city_input');
+    if (cityInput) {
+      cityInput.addEventListener('input', calculateIncome);
+    }
+  });
+</script>

@@ -1,0 +1,20 @@
+<div class="max-w-md mx-auto my-20 p-8 bg-white rounded-2xl shadow-xl border border-slate-100 font-sans">
+  <div class="text-center mb-6">
+    <h1 class="text-2xl font-bold text-slate-900">Connexion Admin</h1>
+    <p class="text-slate-500 text-sm mt-1">Accès réservé à Kreatix Studio</p>
+  </div>
+
+  <form action="/login" method="post" data-turbo="false" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-slate-700 mb-1">Identifiant</label>
+      <input type="text" name="username" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 text-sm">
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-slate-700 mb-1">Mot de passe</label>
+      <input type="password" name="password" required class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 text-sm">
+    </div>
+    <button type="submit" class="w-full bg-slate-900 hover:bg-black text-white font-semibold p-3.5 rounded-xl transition text-sm">
+      Se connecter
+    </button>
+  </form>
+</div>

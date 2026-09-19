@@ -1,0 +1,113 @@
+<style>
+  @media print {
+    /* Masquer les éléments inutiles sur le PDF */
+    .no-print {
+      display: none !important;
+    }
+
+    /* Ajustements pour que le PDF soit parfait */
+    body {
+      background-color: white !important;
+      color: black !important;
+      font-size: 12pt;
+    }
+
+    .main-container {
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* Style du tableau à l'impression */
+    table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+    }
+
+    th, td {
+      border: 1px solid #e2e8f0 !important;
+      padding: 8px 12px !important;
+    }
+
+    th {
+      background-color: #f8fafc !important;
+      color: #334155 !important;
+    }
+  }
+</style>
+
+<div class="main-container max-w-6xl mx-auto my-10 p-6 font-sans">
+  <!-- En-tête du Tableau de Bord -->
+  <div class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900">Tableau de bord — Prospects</h1>
+      <p class="text-slate-500 text-sm">Kreatix Studio</p>
+    </div>
+
+    <!-- Boutons d'action (masqués sur le PDF grâce à class="no-print") -->
+    <div class="flex items-center gap-3 no-print">
+      <a href="/" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-lg transition">
+        ← Voir le simulateur
+      </a>
+      <a href="/admin.csv" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition shadow-sm">
+        📥 Exporter en CSV
+      </a>
+      <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition shadow-sm">
+        📄 Imprimer / PDF
+      </button>
+      <a href="/logout" class="bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold px-4 py-2.5 rounded-lg transition">
+        Se déconnecter
+      </a>
+    </div>
+  </div>
+
+  <!-- Tableau des Prospects -->
+  <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+      <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Liste des prospects enregistrés</span>
+      <span class="bg-blue-50 text-blue-700 text-xs font-bold px-2.5 py-1 rounded-full"><%= @leads.count %> total</span>
+    </div>
+
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-slate-200 bg-slate-50 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          <th class="p-4">Date</th>
+          <th class="p-4">Nom</th>
+          <th class="p-4">Email</th>
+          <th class="p-4">Téléphone</th>
+          <th class="p-4">Choix & Estimation</th>
+          <th class="p-4 text-right no-print">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100 text-sm">
+        <% if @leads.any? %>
+          <% @leads.each do |lead| %>
+            <tr class="hover:bg-slate-50/80 transition">
+              <td class="p-4 text-slate-400 text-xs"><%= lead.created_at.strftime("%d/%m/%Y %H:%M") %></td>
+              <td class="p-4 font-semibold text-slate-800"><%= lead.name %></td>
+              <td class="p-4"><a href="mailto:<%= lead.email %>" class="text-blue-600 hover:underline"><%= lead.email %></a></td>
+              <td class="p-4 text-slate-600"><a href="tel:<%= lead.phone %>" class="hover:text-slate-900"><%= lead.phone %></a></td>
+              <td class="p-4 text-slate-700">
+                <span class="bg-slate-100 text-slate-800 text-xs font-medium px-2.5 py-1 rounded-md">
+                  <%= lead.respond_to?(:choices) && lead.choices.present? ? lead.choices : "Non renseigné" %>
+                </span>
+              </td>
+              <td class="p-4 text-right no-print">
+                <form action="/leads/<%= lead.id %>" method="post" class="inline" data-turbo="false">
+                  <input type="hidden" name="_method" value="delete">
+                  <button type="submit" class="bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold px-3 py-1.5 rounded-lg transition">
+                    Supprimer
+                  </button>
+                </form>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="6" class="p-8 text-center text-slate-400 text-sm">Aucun prospect enregistré pour le moment.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
