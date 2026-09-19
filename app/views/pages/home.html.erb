@@ -10,9 +10,7 @@
         <span class="text-xs text-slate-500 font-medium">Conciergerie & Gestion</span>
       </div>
     </div>
-    <a href="/admin" class="text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 px-4 py-2.5 rounded-xl border border-slate-200 transition shadow-sm">
-      Espace Admin →
-    </a>
+    <%= link_to "Espace Admin →", login_path, class: "text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 px-4 py-2.5 rounded-xl border border-slate-200 transition shadow-sm" %>
   </header>
 
   <!-- Section Principale -->
@@ -81,7 +79,6 @@
         </div>
 
         <!-- Formulaire de Contact -->
-       <!-- Formulaire de Contact -->
         <form action="/leads" method="post" class="space-y-4 pt-4 border-t border-slate-100">
           <input type="hidden" name="lead[choices]" id="lead_choices" value="">
 
