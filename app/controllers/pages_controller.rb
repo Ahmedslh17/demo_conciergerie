@@ -48,14 +48,13 @@ class PagesController < ApplicationController
         render :login, status: :unprocessable_entity
       end
     end
-    # Si c'est un GET, Rails affichera automatiquement la vue login.html.erb
   end
 
- def logout
-  session[:admin_logged_in] = nil
-  flash[:notice] = "Déconnecté !"
-  redirect_to root_path
-end
+  def logout
+    session[:admin_logged_in] = nil
+    flash[:notice] = "Déconnecté !"
+    redirect_to root_path
+  end
 
   private
 
