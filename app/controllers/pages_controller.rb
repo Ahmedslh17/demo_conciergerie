@@ -39,30 +39,25 @@ class PagesController < ApplicationController
 
   # Actions de connexion / déconnexion par formulaire
   def login
-    if request.post?
-      if params[:username] == ENV["ADMIN_USERNAME"] && params[:password] == ENV["ADMIN_PASSWORD"]
-        session[:admin_logged_in] = true
-        redirect_to admin_path, notice: "Connecté avec succès !"
-      else
-        flash.now[:alert] = "Identifiants incorrects"
-        render :login, status: :unprocessable_entity
-      end
+  if request.post?
+    if params[:username] == ENV["ADMIN_USERNAME"] && params[:password] == ENV["ADMIN_PASSWORD"]
+      session[:admin_logged_in] = true
+      redirect_to admin_path
+    else
+      flash.now[:alert] = "Identifiants incorrects"
+      render :login, status: :unprocessable_entity
     end
   end
+end
 
-  def logout
-    session[:admin_logged_in] = nil
-    redirect_to root_path, notice: "Déconnecté !"
+private
+
+def authenticate_admin!
+  unless session[:admin_logged_in]
+    flash[:alert] = "Veuillez vous connecter."
+    redirect_to login_path
   end
-
-  private
-
-  def authenticate_admin!
-    unless session[:admin_logged_in]
-      redirect_to login_path, alert: "Veuillez vous connecter."
-    end
-  end
-
+end
   def generate_csv(leads)
     CSV.generate(headers: true) do |csv|
       csv << ["ID", "Date", "Nom", "Email", "Telephone", "Choix / Services"]
