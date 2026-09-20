@@ -58,10 +58,10 @@ class PagesController < ApplicationController
 
   private
 
+
   def authenticate_admin!
     unless session[:admin_logged_in]
-      flash[:alert] = "Veuillez vous connecter."
-      redirect_to login_path, status: :see_other
+      redirect_to "/login" and return
     end
   end
 
