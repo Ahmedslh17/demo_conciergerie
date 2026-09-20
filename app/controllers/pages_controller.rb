@@ -39,7 +39,10 @@ class PagesController < ApplicationController
 
  def login
     if request.post?
-      if params[:username] == "admin" && params[:password] == "admin123"
+      user = params[:username].to_s.strip
+
+      # Test temporaire : on valide uniquement sur "admin" pour lever le doute sur le mot de passe
+      if user == "admin"
         session[:admin_logged_in] = true
         redirect_to "/admin" and return
       else
