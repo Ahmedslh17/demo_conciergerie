@@ -5,14 +5,8 @@
       <h2 style="color: #0f172a; font-size: 24px; font-weight: 700; margin-bottom: 8px;">Administration</h2>
       <p style="color: #64748b; font-size: 14px;">Connectez-vous pour accéder au tableau de bord</p>
     </div>
-    
-    <% if flash[:alert] %>
-      <div style="background-color: #ffeeec; color: #991b1b; padding: 12px; border-radius: 8px; font-size: 14px; margin-bottom: 20px; border: 1px solid #fecaca;">
-        <%= flash[:alert] %>
-      </div>
-    <% end %>
 
-    <form action="/login" method="post" data-turbo="false">
+    <form action="/login" method="post">
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
       <div style="margin-bottom: 16px;">
