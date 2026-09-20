@@ -38,16 +38,16 @@ class PagesController < ApplicationController
   end
 
  def login
-    if request.post?
-      if params[:username] == ENV["ADMIN_USERNAME"] && params[:password] == ENV["ADMIN_PASSWORD"]
-        session[:admin_logged_in] = true
-        redirect_to admin_path
-      else
-        @error_message = "Identifiants incorrects"
-        render :login
-      end
+  if request.post?
+    if params[:username] == ENV["ADMIN_USERNAME"] && params[:password] == ENV["ADMIN_PASSWORD"]
+      session[:admin_logged_in] = true
+      redirect_to admin_path
+    else
+      @error_message = "Identifiants incorrects"
+      render(template: "pages/login")
     end
   end
+end
 
   def logout
     session[:admin_logged_in] = nil
