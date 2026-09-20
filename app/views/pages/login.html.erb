@@ -6,21 +6,19 @@
       <p style="color: #64748b; font-size: 14px;">Connectez-vous pour accéder au tableau de bord</p>
     </div>
 
-    <form action="/login" method="post">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-
+    <%= form_with url: login_path, method: :post, local: true, data: { turbo: false } do |f| %>
       <div style="margin-bottom: 16px;">
         <label style="display: block; font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 6px;">Nom d'utilisateur</label>
-        <input type="text" name="username" placeholder="admin" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; box-sizing: border-box; outline: none;">
+        <%= text_field_tag :username, nil, placeholder: "admin", style: "width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; box-sizing: border-box; outline: none;" %>
       </div>
 
       <div style="margin-bottom: 24px;">
         <label style="display: block; font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 6px;">Mot de passe</label>
-        <input type="password" name="password" placeholder="••••••••" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; box-sizing: border-box; outline: none;">
+        <%= password_field_tag :password, nil, placeholder: "••••••••", style: "width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; box-sizing: border-box; outline: none;" %>
       </div>
 
-      <button type="submit" style="width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">Se connecter</button>
-    </form>
+      <%= submit_tag "Se connecter", style: "width: 100%; padding: 12px; background: #4f46e5; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;" %>
+    <% end %>
     
     <div style="text-align: center; margin-top: 20px;">
       <a href="/" style="color: #64748b; font-size: 13px; text-decoration: none;">← Retourner à l'accueil</a>
