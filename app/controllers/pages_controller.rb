@@ -37,14 +37,14 @@ class PagesController < ApplicationController
     redirect_to "/admin"
   end
 
-  def login
+ def login
     if request.post?
       if params[:username] == ENV["ADMIN_USERNAME"] && params[:password] == ENV["ADMIN_PASSWORD"]
         session[:admin_logged_in] = true
         redirect_to admin_path
       else
         flash.now[:alert] = "Identifiants incorrects"
-        render :login, status: :unprocessable_entity
+        render :login
       end
     end
   end
