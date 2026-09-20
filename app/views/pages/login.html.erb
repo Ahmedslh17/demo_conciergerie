@@ -12,7 +12,7 @@
       </div>
     <% end %>
 
-    <form action="/login" method="post">
+    <form action="/login" method="post" data-turbo="false">
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 
       <div style="margin-bottom: 16px;">
