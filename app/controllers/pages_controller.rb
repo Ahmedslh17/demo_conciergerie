@@ -42,15 +42,16 @@ class PagesController < ApplicationController
       user = params[:username].to_s.strip
       pass = params[:password].to_s.strip
 
-      # Valeurs en dur temporaires pour s'affranchir des variables d'environnement
       if user == "admin" && pass == "admin123"
         session[:admin_logged_in] = true
-        redirect_to "/admin"
+        redirect_to admin_path, status: :see_other and return
       else
-        redirect_to "/login"
+        flash.now[:alert] = "Identifiants incorrects"
+        render :login, status: :unprocessable_entity and return
       end
     end
   end
+
   def logout
     session[:admin_logged_in] = nil
     redirect_to root_path, status: :see_other, notice: "Déconnecté !"
