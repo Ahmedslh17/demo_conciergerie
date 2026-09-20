@@ -39,19 +39,18 @@ class PagesController < ApplicationController
 
   def login
     if request.post?
-      expected_username = ENV["ADMIN_USERNAME"].presence || "admin"
-      expected_password = ENV["ADMIN_PASSWORD"].presence || "admin123"
+      user = params[:username].to_s.strip
+      pass = params[:password].to_s.strip
 
-      if params[:username] == expected_username && params[:password] == expected_password
+      # Valeurs en dur temporaires pour s'affranchir des variables d'environnement
+      if user == "admin" && pass == "admin123"
         session[:admin_logged_in] = true
-        redirect_to admin_path, status: :see_other
+        redirect_to "/admin"
       else
-        flash[:alert] = "Identifiants incorrects"
-        redirect_to login_path, status: :see_other
+        redirect_to "/login"
       end
     end
   end
-
   def logout
     session[:admin_logged_in] = nil
     redirect_to root_path, status: :see_other, notice: "Déconnecté !"
