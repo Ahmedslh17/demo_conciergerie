@@ -37,7 +37,6 @@ class PagesController < ApplicationController
     redirect_to "/admin"
   end
 
-  # Actions de connexion / déconnexion par formulaire
   def login
     if request.post?
       if params[:username] == ENV["ADMIN_USERNAME"] && params[:password] == ENV["ADMIN_PASSWORD"]
@@ -52,16 +51,14 @@ class PagesController < ApplicationController
 
   def logout
     session[:admin_logged_in] = nil
-    flash[:notice] = "Déconnecté !"
-    redirect_to root_path
+    redirect_to root_path, notice: "Déconnecté !"
   end
 
   private
 
   def authenticate_admin!
     unless session[:admin_logged_in]
-      flash[:alert] = "Veuillez vous connecter."
-      redirect_to login_path
+      redirect_to login_path, alert: "Veuillez vous connecter."
     end
   end
 
