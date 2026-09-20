@@ -44,10 +44,9 @@ class PagesController < ApplicationController
 
       if user == "admin" && pass == "admin123"
         session[:admin_logged_in] = true
-        redirect_to admin_path, status: :see_other and return
+        redirect_to admin_path and return
       else
-        flash.now[:alert] = "Identifiants incorrects"
-        render :login, status: :unprocessable_entity and return
+        redirect_to login_path and return
       end
     end
   end
