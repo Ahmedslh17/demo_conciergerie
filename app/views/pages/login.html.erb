@@ -7,7 +7,7 @@
     </div>
 
     <form action="/login" method="post">
-      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 
       <div style="margin-bottom: 16px;">
         <label style="display: block; font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 6px;">Nom d'utilisateur</label>
