@@ -37,15 +37,18 @@ class PagesController < ApplicationController
     redirect_to admin_path, status: :see_other
   end
 
-  def login
+ def login
     if request.post?
       user = params[:username].to_s.strip
       pass = params[:password].to_s.strip
+
+      Rails.logger.debug "--- TENTATIVE CONNEXION: user='#{user}', pass='#{pass}' ---"
 
       if user == "admin" && pass == "admin123"
         session[:admin_logged_in] = true
         redirect_to admin_path and return
       else
+        Rails.logger.debug "--- ÉCHEC IDENTIFIANTS ---"
         redirect_to login_path and return
       end
     end
