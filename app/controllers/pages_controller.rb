@@ -43,7 +43,7 @@ class PagesController < ApplicationController
         session[:admin_logged_in] = true
         redirect_to admin_path
       else
-        flash.now[:alert] = "Identifiants incorrects"
+        @error_message = "Identifiants incorrects"
         render :login
       end
     end
