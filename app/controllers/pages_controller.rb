@@ -57,10 +57,11 @@ class PagesController < ApplicationController
   private
 
   def authenticate_admin!
-    unless session[:admin_logged_in]
-      redirect_to login_path, alert: "Veuillez vous connecter."
-    end
+  unless session[:admin_logged_in]
+    flash[:alert] = "Veuillez vous connecter."
+    redirect_to login_path
   end
+end
 
   def generate_csv(leads)
     CSV.generate(headers: true) do |csv|
