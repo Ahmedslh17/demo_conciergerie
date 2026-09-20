@@ -39,17 +39,11 @@ class PagesController < ApplicationController
 
  def login
     if request.post?
-      user = params[:username].to_s.strip
-      pass = params[:password].to_s.strip
-
-      Rails.logger.debug "--- TENTATIVE CONNEXION: user='#{user}', pass='#{pass}' ---"
-
-      if user == "admin" && pass == "admin123"
+      if params[:username] == "admin" && params[:password] == "admin123"
         session[:admin_logged_in] = true
-        redirect_to admin_path and return
+        redirect_to "/admin" and return
       else
-        Rails.logger.debug "--- ÉCHEC IDENTIFIANTS ---"
-        redirect_to login_path and return
+        redirect_to "/login" and return
       end
     end
   end
