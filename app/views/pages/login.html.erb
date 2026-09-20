@@ -6,7 +6,7 @@
       <p style="color: #64748b; font-size: 14px;">Connectez-vous pour accéder au tableau de bord</p>
     </div>
 
-    <form action="/login" method="post">
+    <form action="/login" method="post" data-turbo="false">
       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 
       <div style="margin-bottom: 16px;">
