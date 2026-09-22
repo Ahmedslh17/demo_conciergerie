@@ -38,18 +38,19 @@ class PagesController < ApplicationController
   end
 
  def login
-    if request.post?
-      user = params[:username].to_s.strip
-
-      # Test temporaire : on valide uniquement sur "admin" pour lever le doute sur le mot de passe
-      if user == "admin"
-        session[:admin_logged_in] = true
-        redirect_to "/admin" and return
-      else
-        redirect_to "/login" and return
-      end
+  if request.post?
+    user = params[:username].to_s.strip
+    
+    # Test temporaire : on valide uniquement sur "admin"
+    if user == "admin"
+      session[:admin_logged_in] = true
+      redirect_to "/admin" and return
+    else
+      flash[:alert] = "Nom d'utilisateur incorrect"
+      redirect_to "/login" and return
     end
   end
+end
 
   def logout
     session[:admin_logged_in] = nil
