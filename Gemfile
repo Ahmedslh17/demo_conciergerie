@@ -6,7 +6,7 @@ gem "rails", "~> 8.1.3", ">= 8.1.3.1"
 gem "propshaft"
 
 # Database adapter for Production on Render
-gem "pg", "~> 1.1"
+gem "pg", "~> 1.7"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
